@@ -1,11 +1,18 @@
+import os
 from sqlalchemy import create_engine
 from sqlalchemy.orm import declarative_base, sessionmaker
 
-DATABASE_URL = "mysql+pymysql://root:UnnatKisan123@127.0.0.1:3306/unnat_kisan"
+DATABASE_URL = os.getenv("DATABASE_URL")
+
+if not DATABASE_URL:
+    raise RuntimeError("DATABASE_URL is not set")
 
 engine = create_engine(
     DATABASE_URL,
-    echo=True
+    echo=True,
+    connect_args={
+        "ssl": {}
+    }
 )
 
 SessionLocal = sessionmaker(
@@ -19,8 +26,9 @@ Base = declarative_base()
 
 def get_db():
     db = SessionLocal()
-
     try:
         yield db
     finally:
         db.close()
+
+
