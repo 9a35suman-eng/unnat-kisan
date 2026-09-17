@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Customer Registration | Unnat Kisan</title>
+
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+
+  <body class="auth-page">
+    <header class="navbar">
+      <div class="container nav-container">
+        <a href="index.html" class="logo">
+          <span class="logo-icon">🌾</span>
+          <span>Unnat Kisan</span>
+        </a>
+
+        <a href="register.html" class="back-home"> ← Change Account Type </a>
+      </div>
+    </header>
+
+    <main class="form-page">
+      <div class="form-page-header">
+        <div class="registration-icon">🛒</div>
+
+        <span class="section-label"> CUSTOMER REGISTRATION </span>
+
+        <h1>Join as a <span>Customer</span></h1>
+
+        <p>
+          Discover agricultural products and order directly through the Unnat
+          Kisan marketplace.
+        </p>
+      </div>
+
+      <form class="registration-form" id="customerForm">
+        <div class="form-section">
+          <h2>Personal Information</h2>
+
+          <div class="form-section">
+            <div class="form-section-title">
+              <span>01</span>
+              Choose Customer Type
+            </div>
+
+            <div class="customer-type-grid">
+              <label class="customer-type-card">
+                <input
+                  type="radio"
+                  name="customer_type"
+                  value="individual"
+                  required
+                />
+
+                <div class="customer-type-content">
+                  <div class="customer-type-icon">🛒</div>
+
+                  <div>
+                    <h3>Individual Consumer</h3>
+                    <p>For household and personal purchases.</p>
+                  </div>
+                </div>
+
+                <span class="customer-check">✓</span>
+              </label>
+
+              <label class="customer-type-card">
+                <input
+                  type="radio"
+                  name="customer_type"
+                  value="bulk"
+                  required
+                />
+
+                <div class="customer-type-content">
+                  <div class="customer-type-icon">🏢</div>
+
+                  <div>
+                    <h3>Bulk Consumer</h3>
+                    <p>
+                      For hotels, restaurants, college messes and institutions.
+                    </p>
+                  </div>
+                </div>
+
+                <span class="customer-check">✓</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Full Name *</label>
+
+              <input
+                type="text"
+                name="full_name"
+                placeholder="Enter your full name"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label>Mobile Number *</label>
+
+              <input
+                type="tel"
+                name="mobile"
+                placeholder="Enter mobile number"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label>Email Address *</label>
+
+              <input
+                type="email"
+                name="email"
+                placeholder="Enter email address"
+                required
+              />
+            </div>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <h2>Delivery Location</h2>
+
+          <div class="form-grid">
+            <div class="form-group">
+              <label>State *</label>
+
+              <select name="state" required>
+                <option value="">Select State</option>
+
+                <option>Uttar Pradesh</option>
+                <option>Madhya Pradesh</option>
+                <option>Bihar</option>
+                <option>Rajasthan</option>
+                <option>Haryana</option>
+                <option>Punjab</option>
+                <option>Maharashtra</option>
+                <option>Other</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label>District *</label>
+
+              <input
+                type="text"
+                name="district"
+                placeholder="Enter district"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label>City / Town *</label>
+
+              <input
+                type="text"
+                name="city_village"
+                placeholder="Enter city or town"
+                required
+              />
+            </div>
+
+            <div class="form-group full-width">
+              <label>Delivery Address *</label>
+
+              <textarea
+                name="delivery_address"
+                rows="4"
+                placeholder="Enter complete delivery address"
+                required
+              ></textarea>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <h2>Account Security</h2>
+
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Password *</label>
+
+              <input
+                type="password"
+                name="password"
+                placeholder="Create password"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label>Confirm Password *</label>
+
+              <input
+                type="password"
+                name="confirm_password"
+                placeholder="Confirm password"
+                required
+              />
+            </div>
+          </div>
+        </div>
+
+        <label class="terms-check">
+          <input type="checkbox" required />
+
+          <span> I agree to the Unnat Kisan terms and conditions. </span>
+        </label>
+
+        <button type="submit" class="btn btn-primary form-submit">
+          Create Customer Account
+        </button>
+      </form>
+    </main>
+
+    <script src="js/main.js"></script>
+  </body>
+</html>

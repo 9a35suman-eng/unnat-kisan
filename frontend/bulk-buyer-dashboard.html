@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Bulk Buyer Dashboard - Unnat Kisan</title>
+
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+
+  <body>
+    <header class="navbar">
+      <div class="container">
+        <h2>🌾 Unnat Kisan</h2>
+
+        <button class="btn btn-secondary" onclick="logout()">Logout</button>
+      </div>
+    </header>
+
+    <main class="container dashboard">
+      <div class="dashboard-header">
+        <h1>Bulk Buyer Dashboard</h1>
+        <p>Manage your crop purchases and farmer pickups</p>
+      </div>
+
+      <!-- OVERVIEW -->
+
+      <section class="dashboard-cards">
+        <div class="dashboard-card">
+          <h3>Open Requests</h3>
+          <strong id="openRequestCount">0</strong>
+        </div>
+
+        <div class="dashboard-card">
+          <h3>Quality Checked</h3>
+          <strong id="qualityCount">0</strong>
+        </div>
+
+        <div class="dashboard-card">
+          <h3>Orders</h3>
+          <strong id="orderCount">0</strong>
+        </div>
+      </section>
+
+      <!-- AVAILABLE CROPS -->
+
+      <section class="dashboard-section">
+        <div class="section-header">
+          <div>
+            <h2>Available Farmer Crops</h2>
+            <p>Browse crops listed by farmers</p>
+          </div>
+        </div>
+
+        <div id="availableCrops" class="crop-grid">
+          <p>Loading crops...</p>
+        </div>
+      </section>
+
+      <!-- QUALITY CHECKED -->
+
+      <section class="dashboard-section">
+        <div class="section-header">
+          <div>
+            <h2>Quality Checked Purchases</h2>
+            <p>Review inspection results and confirm purchases</p>
+          </div>
+        </div>
+
+        <div id="qualityRequests">
+          <p>Loading...</p>
+        </div>
+      </section>
+
+      <!-- ROUTE OPTIMIZATION -->
+
+      <section class="dashboard-section">
+        <div class="section-header">
+          <div>
+            <h2>🚚 Route Optimization</h2>
+            <p>Optimize pickup route from multiple farmers</p>
+          </div>
+        </div>
+
+        <div id="routeSelection">
+          <p>Confirmed farmer pickups will appear here.</p>
+
+          <button class="btn btn-primary" onclick="optimizeRoute()">
+            Optimize Route
+          </button>
+        </div>
+
+        <div id="routeResult"></div>
+      </section>
+    </main>
+
+    <script src="js/bulk-buyer-dashboard.js"></script>
+  </body>
+</html>

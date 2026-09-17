@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Admin Dashboard - Unnat Kisan</title>
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <header class="navbar">
+        <div class="container">
+            <h2>🌾 Unnat Kisan</h2>
+
+            <button class="btn btn-secondary" onclick="logout()">
+                Logout
+            </button>
+        </div>
+    </header>
+
+
+    <main class="container dashboard">
+
+        <div class="dashboard-header">
+            <h1>Admin Dashboard</h1>
+            <p>Manage verification and marketplace activities</p>
+        </div>
+
+
+        <!-- OVERVIEW -->
+
+        <section class="dashboard-cards">
+
+            <div class="dashboard-card">
+                <h3>Pending Buyers</h3>
+                <strong id="pendingBuyerCount">0</strong>
+            </div>
+
+            <div class="dashboard-card">
+                <h3>Payment Verification</h3>
+                <strong id="paymentCount">0</strong>
+            </div>
+
+        </section>
+
+
+        <!-- BULK BUYER VERIFICATION -->
+
+        <section class="dashboard-section">
+
+            <div class="section-header">
+                <div>
+                    <h2>Bulk Buyer Verification</h2>
+                    <p>Review business and license information</p>
+                </div>
+            </div>
+
+            <div id="pendingBuyers">
+                <p>Loading pending buyers...</p>
+            </div>
+
+        </section>
+
+        <!-- PAYMENT VERIFICATION -->
+         <section class="dashboard-section">
+
+    <div class="section-header">
+        <div>
+            <h2>Payment Verification</h2>
+            <p>Review payment proofs submitted by bulk buyers</p>
+        </div>
+    </div>
+
+    <div id="pendingPayments">
+        <p>Loading pending payments...</p>
+    </div>
+
+</section>
+
+    </main>
+
+
+    <script src="js/admin-dashboard.js"></script>
+
+</body>
+</html>
