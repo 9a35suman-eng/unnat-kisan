@@ -5,3 +5,4 @@ pymysql
 python-multipart
 bcrypt
 python-jose[cryptography]
+email-validator
