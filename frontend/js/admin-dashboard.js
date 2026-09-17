@@ -1,50 +1,43 @@
-const API_BASE = "http://localhost:8000";
+const API_BASE = "https://unnat-kisan.onrender.com";
 
 const token = localStorage.getItem("access_token");
-
 
 // -------------------------
 // LOAD PENDING BUYERS
 // -------------------------
 
 async function loadPendingBuyers() {
+  const container = document.getElementById("pendingBuyers");
 
-    const container = document.getElementById("pendingBuyers");
+  try {
+    const response = await fetch(`${API_BASE}/api/admin/bulk-buyers/pending`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
-    try {
+    if (!response.ok) {
+      throw new Error("Failed to load buyers");
+    }
 
-        const response = await fetch(
-            `${API_BASE}/api/admin/bulk-buyers/pending`,
-            {
-                headers: {
-                    "Authorization": `Bearer ${token}`
-                }
-            }
-        );
+    const buyers = await response.json();
 
-        if (!response.ok) {
-            throw new Error("Failed to load buyers");
-        }
+    document.getElementById("pendingBuyerCount").textContent = buyers.length;
 
-        const buyers = await response.json();
-
-        document.getElementById("pendingBuyerCount").textContent =
-            buyers.length;
-
-        if (buyers.length === 0) {
-
-            container.innerHTML = `
+    if (buyers.length === 0) {
+      container.innerHTML = `
                 <div class="empty-state">
                     <h3>No Pending Buyers</h3>
                     <p>All bulk buyers have been reviewed.</p>
                 </div>
             `;
 
-            return;
-        }
+      return;
+    }
 
-
-        container.innerHTML = buyers.map(buyer => `
+    container.innerHTML = buyers
+      .map(
+        (buyer) => `
 
             <div class="dashboard-card buyer-verification-card">
 
@@ -76,7 +69,7 @@ async function loadPendingBuyers() {
                 </p>
 
                 ${
-                    buyer.license_photo
+                  buyer.license_photo
                     ? `
                         <p>
                             <a
@@ -108,118 +101,103 @@ async function loadPendingBuyers() {
 
             </div>
 
-        `).join("");
+        `,
+      )
+      .join("");
+  } catch (error) {
+    console.error(error);
 
-    } catch (error) {
-
-        console.error(error);
-
-        container.innerHTML = `
+    container.innerHTML = `
             <p>Unable to load pending buyers.</p>
         `;
-    }
+  }
 }
-
 
 // -------------------------
 // APPROVE
 // -------------------------
 
 async function approveBuyer(buyerId) {
+  if (!confirm("Approve this bulk buyer?")) {
+    return;
+  }
 
-    if (!confirm("Approve this bulk buyer?")) {
-        return;
+  try {
+    const response = await fetch(
+      `${API_BASE}/api/admin/bulk-buyers/${buyerId}/approve`,
+      {
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      },
+    );
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      alert(data.detail || "Approval failed");
+      return;
     }
 
-    try {
+    alert("Bulk buyer approved successfully ✅");
 
-        const response = await fetch(
-            `${API_BASE}/api/admin/bulk-buyers/${buyerId}/approve`,
-            {
-                method: "PATCH",
-                headers: {
-                    "Authorization": `Bearer ${token}`
-                }
-            }
-        );
+    loadPendingBuyers();
+  } catch (error) {
+    console.error(error);
 
-        const data = await response.json();
-
-        if (!response.ok) {
-            alert(data.detail || "Approval failed");
-            return;
-        }
-
-        alert("Bulk buyer approved successfully ✅");
-
-        loadPendingBuyers();
-
-    } catch (error) {
-
-        console.error(error);
-
-        alert("Server error");
-    }
+    alert("Server error");
+  }
 }
-
 
 // -------------------------
 // REJECT
 // -------------------------
 
 async function rejectBuyer(buyerId) {
+  const reason = prompt("Enter rejection reason:");
 
-    const reason = prompt(
-        "Enter rejection reason:"
+  if (!reason) {
+    return;
+  }
+
+  try {
+    const response = await fetch(
+      `${API_BASE}/api/admin/bulk-buyers/${buyerId}/reject?rejection_reason=${encodeURIComponent(reason)}`,
+      {
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      },
     );
 
-    if (!reason) {
-        return;
+    const data = await response.json();
+
+    if (!response.ok) {
+      alert(data.detail || "Rejection failed");
+      return;
     }
 
-    try {
+    alert("Bulk buyer rejected");
 
-        const response = await fetch(
-            `${API_BASE}/api/admin/bulk-buyers/${buyerId}/reject?rejection_reason=${encodeURIComponent(reason)}`,
-            {
-                method: "PATCH",
-                headers: {
-                    "Authorization": `Bearer ${token}`
-                }
-            }
-        );
+    loadPendingBuyers();
+  } catch (error) {
+    console.error(error);
 
-        const data = await response.json();
-
-        if (!response.ok) {
-            alert(data.detail || "Rejection failed");
-            return;
-        }
-
-        alert("Bulk buyer rejected");
-
-        loadPendingBuyers();
-
-    } catch (error) {
-
-        console.error(error);
-
-        alert("Server error");
-    }
+    alert("Server error");
+  }
 }
-
 
 // -------------------------
 // LOGOUT
 // -------------------------
 
 function logout() {
+  localStorage.removeItem("access_token");
 
-    localStorage.removeItem("access_token");
-
-    window.location.href = "login.html";
+  window.location.href = "login.html";
 }
-
 
 // -------------------------
 // INITIAL LOAD
@@ -228,42 +206,37 @@ function logout() {
 loadPendingBuyers();
 
 async function loadPendingPayments() {
+  const container = document.getElementById("pendingPayments");
 
-    const container = document.getElementById("pendingPayments");
+  try {
+    const response = await fetch(`${API_BASE}/api/admin/payments/pending`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
-    try {
+    if (!response.ok) {
+      throw new Error("Failed to load payments");
+    }
 
-        const response = await fetch(
-            `${API_BASE}/api/admin/payments/pending`,
-            {
-                headers: {
-                    "Authorization": `Bearer ${token}`
-                }
-            }
-        );
+    const payments = await response.json();
 
-        if (!response.ok) {
-            throw new Error("Failed to load payments");
-        }
+    document.getElementById("paymentCount").textContent = payments.length;
 
-        const payments = await response.json();
-
-        document.getElementById("paymentCount").textContent =
-            payments.length;
-
-        if (payments.length === 0) {
-
-            container.innerHTML = `
+    if (payments.length === 0) {
+      container.innerHTML = `
                 <div class="empty-state">
                     <h3>No Pending Payments</h3>
                     <p>There are no payments waiting for verification.</p>
                 </div>
             `;
 
-            return;
-        }
+      return;
+    }
 
-        container.innerHTML = payments.map(payment => `
+    container.innerHTML = payments
+      .map(
+        (payment) => `
 
             <div class="dashboard-card">
 
@@ -280,7 +253,7 @@ async function loadPendingPayments() {
                 </p>
 
                 ${
-                    payment.payment_proof
+                  payment.payment_proof
                     ? `
                         <p>
                             <a
@@ -311,72 +284,68 @@ async function loadPendingPayments() {
 
             </div>
 
-        `).join("");
+        `,
+      )
+      .join("");
+  } catch (error) {
+    console.error(error);
 
-    } catch (error) {
-
-        console.error(error);
-
-        container.innerHTML =
-            "<p>Unable to load pending payments.</p>";
-    }
+    container.innerHTML = "<p>Unable to load pending payments.</p>";
+  }
 }
 
 async function verifyPayment(paymentId) {
+  if (!confirm("Verify this payment?")) {
+    return;
+  }
 
-    if (!confirm("Verify this payment?")) {
-        return;
-    }
+  const response = await fetch(
+    `${API_BASE}/api/admin/payments/${paymentId}/verify`,
+    {
+      method: "PATCH",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  );
 
-    const response = await fetch(
-        `${API_BASE}/api/admin/payments/${paymentId}/verify`,
-        {
-            method: "PATCH",
-            headers: {
-                "Authorization": `Bearer ${token}`
-            }
-        }
-    );
+  const data = await response.json();
 
-    const data = await response.json();
+  if (!response.ok) {
+    alert(data.detail || "Verification failed");
+    return;
+  }
 
-    if (!response.ok) {
-        alert(data.detail || "Verification failed");
-        return;
-    }
+  alert("Payment verified successfully ✅");
 
-    alert("Payment verified successfully ✅");
-
-    loadPendingPayments();
+  loadPendingPayments();
 }
 
-
 async function rejectPayment(paymentId) {
+  const reason = prompt("Enter rejection reason:");
 
-    const reason = prompt("Enter rejection reason:");
+  if (!reason) {
+    return;
+  }
 
-    if (!reason) {
-        return;
-    }
+  const response = await fetch(
+    `${API_BASE}/api/admin/payments/${paymentId}/reject?reason=${encodeURIComponent(reason)}`,
+    {
+      method: "PATCH",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  );
 
-    const response = await fetch(
-        `${API_BASE}/api/admin/payments/${paymentId}/reject?reason=${encodeURIComponent(reason)}`,
-        {
-            method: "PATCH",
-            headers: {
-                "Authorization": `Bearer ${token}`
-            }
-        }
-    );
+  const data = await response.json();
 
-    const data = await response.json();
+  if (!response.ok) {
+    alert(data.detail || "Rejection failed");
+    return;
+  }
 
-    if (!response.ok) {
-        alert(data.detail || "Rejection failed");
-        return;
-    }
+  alert("Payment rejected");
 
-    alert("Payment rejected");
-
-    loadPendingPayments();
+  loadPendingPayments();
 }
